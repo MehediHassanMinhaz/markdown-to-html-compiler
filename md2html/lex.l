@@ -24,8 +24,7 @@
 "- [ ]".*                   { yylval.str = strdup(yytext); return TASK_PENDING; }
 
 [ \t]+-.*                   { yylval.str = strdup(yytext); return NESTED_LIST; }
-[0-9]+\\..* 	            { yylval.str = strdup(yytext); return ORDERED_LIST; }
-"-".*                       { yylval.str = strdup(yytext); return UNORDERED_LIST; }
+"-".*                       { yylval.str = strdup(yytext); return LIST; }
 
 \n                          { return NEWLINE; }
 [^~\*\n[]+		            { yylval.str = strdup(yytext); return TEXT; }

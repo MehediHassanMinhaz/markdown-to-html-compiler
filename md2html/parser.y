@@ -16,7 +16,7 @@ void parse_image(char *str);
 }
 
 %token <str> H1 H2 H3 BOLD ITALIC
-%token <str> UNORDERED_LIST ORDERED_LIST NESTED_LIST
+%token <str> LIST NESTED_LIST
 %token <str> TASK_DONE TASK_PENDING
 %token <str> LINK IMAGE TEXT STRIKE
 %token NEWLINE
@@ -54,14 +54,9 @@ line:
 		printf("<i>%s</i>", $1);
 		free($1); 
 	}
-	| UNORDERED_LIST {
-		clean($1);
-		printf("<ul><li>%s</li></ul>", $1);
-		free($1);
-	}
-	| ORDERED_LIST { 
+	| LIST { 
 		clean($1); 
-		printf("<ol><li>%s</li></ol>", $1);
+		printf("<li>%s</li>", $1);
 		free($1); 
 	}
 	| NESTED_LIST {

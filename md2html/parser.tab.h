@@ -59,16 +59,15 @@ extern int yydebug;
     H3 = 260,                      /* H3  */
     BOLD = 261,                    /* BOLD  */
     ITALIC = 262,                  /* ITALIC  */
-    UNORDERED_LIST = 263,          /* UNORDERED_LIST  */
-    ORDERED_LIST = 264,            /* ORDERED_LIST  */
-    NESTED_LIST = 265,             /* NESTED_LIST  */
-    TASK_DONE = 266,               /* TASK_DONE  */
-    TASK_PENDING = 267,            /* TASK_PENDING  */
-    LINK = 268,                    /* LINK  */
-    IMAGE = 269,                   /* IMAGE  */
-    TEXT = 270,                    /* TEXT  */
-    STRIKE = 271,                  /* STRIKE  */
-    NEWLINE = 272                  /* NEWLINE  */
+    LIST = 263,                    /* LIST  */
+    NESTED_LIST = 264,             /* NESTED_LIST  */
+    TASK_DONE = 265,               /* TASK_DONE  */
+    TASK_PENDING = 266,            /* TASK_PENDING  */
+    LINK = 267,                    /* LINK  */
+    IMAGE = 268,                   /* IMAGE  */
+    TEXT = 269,                    /* TEXT  */
+    STRIKE = 270,                  /* STRIKE  */
+    NEWLINE = 271                  /* NEWLINE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -81,7 +80,7 @@ union YYSTYPE
 
     char* str;
 
-#line 85 "parser.tab.h"
+#line 84 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

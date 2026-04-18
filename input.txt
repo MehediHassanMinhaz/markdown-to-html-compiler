@@ -5,7 +5,7 @@
 This is normal text.<br>
 This is **bold text**<br>
 This is *italic text*.<br>
-This is ~~strikethrough text~~ example.
+This is ~~strikethrough text~~ example.<br>
 
 ## Image Test
 
@@ -13,7 +13,7 @@ This is ~~strikethrough text~~ example.
 
 ## Link Test
 
-Visit [Google](https://google.com)
+Visit [DIU_WEBSITE](https://daffodilvarsity.edu.bd/)
 
 ### Todo List
 - [x] Completed
