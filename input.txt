@@ -1,3 +1,18 @@
-# Hello
-This is **bold**
-### yo
+# Main Title
+## Subheading Level 2
+### Subheading Level 3
+
+This is normal text.
+
+This is **bold text** and this is *italic text*.
+
+List:
+- First list item
+- Second list item
+- Third list item
+
+Here is some inline code:
+`printf("Hello World");`
+
+Here is a link:
+[OpenAI](https://openai.com)

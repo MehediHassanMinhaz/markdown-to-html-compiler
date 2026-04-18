@@ -50,4 +50,11 @@ button:hover {
     padding: 15px;
     border-radius: 10px;
     min-height: 100px;
+	text-align: left;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+textarea, #output {
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }

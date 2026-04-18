@@ -1,6 +1,8 @@
 function convert() {
     let input = document.getElementById("markdownInput").value;
 
+    document.getElementById("output").innerHTML = "Processing...";
+
     fetch('/convert', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
