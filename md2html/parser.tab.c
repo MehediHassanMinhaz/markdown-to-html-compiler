@@ -73,15 +73,14 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern FILE *yyin;
-FILE *outFile;
-
-void clean(char *str);
-void parse_link(char *str);
 int yylex(void);
 int yyerror(const char *s);
 
-#line 85 "parser.tab.c"
+void clean(char *str);
+void parse_link(char *str);
+void parse_image(char *str);
+
+#line 84 "parser.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -117,14 +116,19 @@ enum yysymbol_kind_t
   YYSYMBOL_H3 = 5,                         /* H3  */
   YYSYMBOL_BOLD = 6,                       /* BOLD  */
   YYSYMBOL_ITALIC = 7,                     /* ITALIC  */
-  YYSYMBOL_LIST = 8,                       /* LIST  */
-  YYSYMBOL_CODE = 9,                       /* CODE  */
-  YYSYMBOL_LINK = 10,                      /* LINK  */
-  YYSYMBOL_TEXT = 11,                      /* TEXT  */
-  YYSYMBOL_NEWLINE = 12,                   /* NEWLINE  */
-  YYSYMBOL_YYACCEPT = 13,                  /* $accept  */
-  YYSYMBOL_input = 14,                     /* input  */
-  YYSYMBOL_line = 15                       /* line  */
+  YYSYMBOL_UNORDERED_LIST = 8,             /* UNORDERED_LIST  */
+  YYSYMBOL_ORDERED_LIST = 9,               /* ORDERED_LIST  */
+  YYSYMBOL_NESTED_LIST = 10,               /* NESTED_LIST  */
+  YYSYMBOL_TASK_DONE = 11,                 /* TASK_DONE  */
+  YYSYMBOL_TASK_PENDING = 12,              /* TASK_PENDING  */
+  YYSYMBOL_LINK = 13,                      /* LINK  */
+  YYSYMBOL_IMAGE = 14,                     /* IMAGE  */
+  YYSYMBOL_TEXT = 15,                      /* TEXT  */
+  YYSYMBOL_STRIKE = 16,                    /* STRIKE  */
+  YYSYMBOL_NEWLINE = 17,                   /* NEWLINE  */
+  YYSYMBOL_YYACCEPT = 18,                  /* $accept  */
+  YYSYMBOL_input = 19,                     /* input  */
+  YYSYMBOL_line = 20                       /* line  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -450,21 +454,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  13
+#define YYFINAL  18
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   22
+#define YYLAST   32
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  13
+#define YYNTOKENS  18
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  3
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  13
+#define YYNRULES  18
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  15
+#define YYNSTATES  20
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   267
+#define YYMAXUTOK   272
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -504,15 +508,16 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    25,    25,    26,    30,    31,    32,    33,    34,    35,
-      36,    37,    38,    39
+       0,    27,    27,    28,    32,    37,    42,    47,    52,    57,
+      62,    67,    72,    77,    82,    87,    91,    95,    99
 };
 #endif
 
@@ -529,8 +534,9 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "H1", "H2", "H3",
-  "BOLD", "ITALIC", "LIST", "CODE", "LINK", "TEXT", "NEWLINE", "$accept",
-  "input", "line", YY_NULLPTR
+  "BOLD", "ITALIC", "UNORDERED_LIST", "ORDERED_LIST", "NESTED_LIST",
+  "TASK_DONE", "TASK_PENDING", "LINK", "IMAGE", "TEXT", "STRIKE",
+  "NEWLINE", "$accept", "input", "line", YY_NULLPTR
 };
 
 static const char *
@@ -540,7 +546,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-11)
+#define YYPACT_NINF (-16)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -554,8 +560,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      10,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11,
-     -11,     0,   -11,   -11,   -11
+      15,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,   -16,
+     -16,   -16,   -16,   -16,   -16,   -16,     0,   -16,   -16,   -16
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -564,19 +570,19 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     4,     5,     6,     7,     8,     9,    10,    11,    12,
-      13,     0,     3,     1,     2
+      13,    15,    16,    17,    14,    18,     0,     3,     1,     2
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -11,   -11,   -10
+     -16,   -16,   -15
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,    11,    12
+       0,    16,    17
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -584,16 +590,18 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      13,    14,     0,     1,     2,     3,     4,     5,     6,     7,
-       8,     9,    10,     1,     2,     3,     4,     5,     6,     7,
-       8,     9,    10
+      18,    19,     0,     1,     2,     3,     4,     5,     6,     7,
+       8,     9,    10,    11,    12,    13,    14,    15,     1,     2,
+       3,     4,     5,     6,     7,     8,     9,    10,    11,    12,
+      13,    14,    15
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,    11,    -1,     3,     4,     5,     6,     7,     8,     9,
-      10,    11,    12,     3,     4,     5,     6,     7,     8,     9,
-      10,    11,    12
+       0,    16,    -1,     3,     4,     5,     6,     7,     8,     9,
+      10,    11,    12,    13,    14,    15,    16,    17,     3,     4,
+       5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
+      15,    16,    17
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -601,21 +609,21 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,     3,     4,     5,     6,     7,     8,     9,    10,    11,
-      12,    14,    15,     0,    15
+      12,    13,    14,    15,    16,    17,    19,    20,     0,    20
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    13,    14,    14,    15,    15,    15,    15,    15,    15,
-      15,    15,    15,    15
+       0,    18,    19,    19,    20,    20,    20,    20,    20,    20,
+      20,    20,    20,    20,    20,    20,    20,    20,    20
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     1,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1
+       1,     1,     1,     1,     1,     1,     1,     1,     1
 };
 
 
@@ -1079,67 +1087,152 @@ yyreduce:
   switch (yyn)
     {
   case 4: /* line: H1  */
-#line 30 "parser.y"
-              { clean((yyvsp[0].str)); printf("<h1>%s</h1>\n", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1085 "parser.tab.c"
-    break;
-
-  case 5: /* line: H2  */
-#line 31 "parser.y"
-              { clean((yyvsp[0].str)); printf("<h2>%s</h2>\n", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1091 "parser.tab.c"
-    break;
-
-  case 6: /* line: H3  */
 #line 32 "parser.y"
-              { clean((yyvsp[0].str)); printf("<h3>%s</h3>\n", (yyvsp[0].str)); free((yyvsp[0].str)); }
+       { 
+		clean((yyvsp[0].str));
+		printf("<h1>%s</h1>", (yyvsp[0].str));
+		free((yyvsp[0].str)); 
+	}
 #line 1097 "parser.tab.c"
     break;
 
-  case 7: /* line: BOLD  */
-#line 33 "parser.y"
-              { clean((yyvsp[0].str)); printf("<b>%s</b>", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1103 "parser.tab.c"
-    break;
-
-  case 8: /* line: ITALIC  */
-#line 34 "parser.y"
-              { clean((yyvsp[0].str)); printf("<i>%s</i>", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1109 "parser.tab.c"
-    break;
-
-  case 9: /* line: LIST  */
-#line 35 "parser.y"
-              { clean((yyvsp[0].str)); printf("<li>%s</li>\n", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1115 "parser.tab.c"
-    break;
-
-  case 10: /* line: CODE  */
-#line 36 "parser.y"
-              { clean((yyvsp[0].str)); printf("<code>%s</code>", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1121 "parser.tab.c"
-    break;
-
-  case 11: /* line: LINK  */
+  case 5: /* line: H2  */
 #line 37 "parser.y"
-              { parse_link((yyvsp[0].str)); free((yyvsp[0].str)); }
+         {
+		clean((yyvsp[0].str));
+		printf("<h2>%s</h2>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1107 "parser.tab.c"
+    break;
+
+  case 6: /* line: H3  */
+#line 42 "parser.y"
+         {
+		clean((yyvsp[0].str));
+		printf("<h3>%s</h3>", (yyvsp[0].str)); 
+		free((yyvsp[0].str)); 
+	}
+#line 1117 "parser.tab.c"
+    break;
+
+  case 7: /* line: BOLD  */
+#line 47 "parser.y"
+           {
+		clean((yyvsp[0].str));
+		printf("<b>%s</b>", (yyvsp[0].str));
+		free((yyvsp[0].str)); 
+	}
 #line 1127 "parser.tab.c"
     break;
 
-  case 12: /* line: TEXT  */
-#line 38 "parser.y"
-              { printf("%s", (yyvsp[0].str)); free((yyvsp[0].str)); }
-#line 1133 "parser.tab.c"
+  case 8: /* line: ITALIC  */
+#line 52 "parser.y"
+             { 
+		clean((yyvsp[0].str)); 
+		printf("<i>%s</i>", (yyvsp[0].str));
+		free((yyvsp[0].str)); 
+	}
+#line 1137 "parser.tab.c"
     break;
 
-  case 13: /* line: NEWLINE  */
-#line 39 "parser.y"
-              { printf("<br>\n"); }
-#line 1139 "parser.tab.c"
+  case 9: /* line: UNORDERED_LIST  */
+#line 57 "parser.y"
+                         {
+		clean((yyvsp[0].str));
+		printf("<ul><li>%s</li></ul>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1147 "parser.tab.c"
+    break;
+
+  case 10: /* line: ORDERED_LIST  */
+#line 62 "parser.y"
+                       { 
+		clean((yyvsp[0].str)); 
+		printf("<ol><li>%s</li></ol>", (yyvsp[0].str));
+		free((yyvsp[0].str)); 
+	}
+#line 1157 "parser.tab.c"
+    break;
+
+  case 11: /* line: NESTED_LIST  */
+#line 67 "parser.y"
+                      {
+		clean((yyvsp[0].str));
+		printf("<ul style='margin-left:20px'><li>%s</li></ul>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1167 "parser.tab.c"
+    break;
+
+  case 12: /* line: TASK_DONE  */
+#line 72 "parser.y"
+                    {
+		clean((yyvsp[0].str));
+		printf("<li>✅ %s</li>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1177 "parser.tab.c"
+    break;
+
+  case 13: /* line: TASK_PENDING  */
+#line 77 "parser.y"
+                       {
+		clean((yyvsp[0].str));
+		printf("<li>🔲 %s</li>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1187 "parser.tab.c"
+    break;
+
+  case 14: /* line: STRIKE  */
+#line 82 "parser.y"
+                 {
+		clean((yyvsp[0].str));
+		printf("<del>%s</del>", (yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1197 "parser.tab.c"
+    break;
+
+  case 15: /* line: LINK  */
+#line 87 "parser.y"
+           { 
+		parse_link((yyvsp[0].str)); 
+		free((yyvsp[0].str)); 
+	}
+#line 1206 "parser.tab.c"
+    break;
+
+  case 16: /* line: IMAGE  */
+#line 91 "parser.y"
+                {
+		parse_image((yyvsp[0].str));
+		free((yyvsp[0].str));
+	}
+#line 1215 "parser.tab.c"
+    break;
+
+  case 17: /* line: TEXT  */
+#line 95 "parser.y"
+           { 
+		printf("%s", (yyvsp[0].str)); 
+		free((yyvsp[0].str)); 
+	}
+#line 1224 "parser.tab.c"
+    break;
+
+  case 18: /* line: NEWLINE  */
+#line 99 "parser.y"
+              { 
+		printf("\n"); 
+	}
+#line 1232 "parser.tab.c"
     break;
 
 
-#line 1143 "parser.tab.c"
+#line 1236 "parser.tab.c"
 
       default: break;
     }
@@ -1332,17 +1425,37 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 42 "parser.y"
+#line 104 "parser.y"
 
 
 void clean(char *str) {
-    int i, j = 0;
+    int i = 0, j = 0;
     char temp[1000];
 
-    for (i = 0; str[i]; i++) {
-        if (str[i] != '#' && str[i] != '*' && str[i] != '-' && str[i] != '`')
+    while (str[i]) {
+
+        // CASE: [x] or [ ]
+        if (str[i] == '[' &&
+            str[i+2] == ']' &&
+            (str[i+1] == 'x' || str[i+1] == ' ')) {
+
+            i += 3;   // skip entire "[x]" or "[ ]"
+            continue;
+        }
+
+        // normal cleanup
+        if (str[i] != '#' &&
+            str[i] != '*' &&
+            str[i] != '`' &&
+            str[i] != '~' &&
+            str[i] != '>') {
+
             temp[j++] = str[i];
+        }
+
+        i++;
     }
+
     temp[j] = '\0';
     strcpy(str, temp);
 }
@@ -1353,51 +1466,11 @@ void parse_link(char *str) {
     printf("<a href=\"%s\">%s</a>", url, text);
 }
 
-/*
-int main() {
-    int choice;
-    char inputFile[100];
-
-    while (1) {
-        printf("\n=== Markdown to HTML Converter ===\n");
-        printf("1. Convert File\n");
-        printf("2. Exit\n");
-        printf("Enter choice: ");
-        scanf("%d", &choice);
-
-        if (choice == 1) {
-            printf("Enter Markdown file name: ");
-            scanf("%s", inputFile);
-
-            yyin = fopen(inputFile, "r");
-            if (!yyin) {
-                printf("File not found!\n");
-                continue;
-            }
-
-            outFile = fopen("output.html", "w");
-            fprintf(outFile, "<html><body>\n");
-
-            yyparse();
-
-            fprintf(outFile, "\n</body></html>");
-            fclose(yyin);
-            fclose(outFile);
-
-            printf("Conversion Done! Check output.html\n");
-        }
-        else if (choice == 2) {
-            printf("Exiting...\n");
-            break;
-        }
-        else {
-            printf("Invalid choice!\n");
-        }
-    }
-
-    return 0;
+void parse_image(char *str) {
+    char alt[100], url[200];
+    sscanf(str, "![%[^]]](%[^)])", alt, url);
+    printf("<img src=\"%s\" alt=\"%s\" style=\"max-width:300px;\">", url, alt);
 }
-*/
 
 int main() {
     yyparse();

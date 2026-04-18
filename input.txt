@@ -1,18 +1,32 @@
 # Main Title
-## Subheading Level 2
-### Subheading Level 3
+## Sub Title
+### Small Title
 
-This is normal text.
+This is normal text.<br>
+This is **bold text**<br>
+This is *italic text*.<br>
+This is ~~strikethrough text~~ example.
 
-This is **bold text** and this is *italic text*.
+## Image Test
 
-List:
-- First list item
-- Second list item
-- Third list item
+![cat](https://bit.ly/fcc-running-cats)
 
-Here is some inline code:
-`printf("Hello World");`
+## Link Test
 
-Here is a link:
-[OpenAI](https://openai.com)
+Visit [Google](https://google.com)
+
+### Todo List
+- [x] Completed
+- [ ] Pending
+- [x] Completed
+- [ ] Pending
+- [ ] Pending
+
+### List
+- Item A
+- Item B
+
+### Nested List
+- Item 1
+  - Item 1.1
+  - Item 1.2

@@ -59,11 +59,16 @@ extern int yydebug;
     H3 = 260,                      /* H3  */
     BOLD = 261,                    /* BOLD  */
     ITALIC = 262,                  /* ITALIC  */
-    LIST = 263,                    /* LIST  */
-    CODE = 264,                    /* CODE  */
-    LINK = 265,                    /* LINK  */
-    TEXT = 266,                    /* TEXT  */
-    NEWLINE = 267                  /* NEWLINE  */
+    UNORDERED_LIST = 263,          /* UNORDERED_LIST  */
+    ORDERED_LIST = 264,            /* ORDERED_LIST  */
+    NESTED_LIST = 265,             /* NESTED_LIST  */
+    TASK_DONE = 266,               /* TASK_DONE  */
+    TASK_PENDING = 267,            /* TASK_PENDING  */
+    LINK = 268,                    /* LINK  */
+    IMAGE = 269,                   /* IMAGE  */
+    TEXT = 270,                    /* TEXT  */
+    STRIKE = 271,                  /* STRIKE  */
+    NEWLINE = 272                  /* NEWLINE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -72,11 +77,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "parser.y"
+#line 14 "parser.y"
 
     char* str;
 
-#line 80 "parser.tab.h"
+#line 85 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
